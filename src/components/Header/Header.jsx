@@ -1,11 +1,17 @@
 /* eslint-disable no-unused-vars */
 import {Container,LogoutBtn,Logo} from '../index'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars,faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Link ,useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-
+import { useState } from 'react'
 function Header() {
     const authStatus=useSelector((state)=>(state.auth.status))
     const navigate=useNavigate()
+    const [menuOpen, setMenuOpen] = useState(false);
+    const toggleMenu = () => {
+      setMenuOpen(!menuOpen);
+    };
     const navItems = [
         {
           name: 'Home',
@@ -36,14 +42,24 @@ function Header() {
     return (
         <header className='py-3 shadow bg-black'>
             <Container>
-        <nav className='flex'>
-          <div className='mr-4'>
+        <nav className='flex justify-between flex-col sm:flex-row'>
+          <div className='w-full flex justify-between sm:w-auto'>
+          <div className='mr-4 flex items-center'>
             <Link to='/'>
               <Logo width='70px'   />
 
               </Link>
           </div>
-          <ul className='flex ml-auto'>
+          <div className='sm:hidden flex'>
+            <button onClick={toggleMenu} className='text-white'>
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />
+            </button>
+          </div>
+          </div>
+          <ul className={`transition-all duration-300 ease-linear overflow-hidden w-full flex flex-col items-center ml-auto 
+              sm:flex sm:w-auto sm:flex-row 
+              ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} 
+              sm:overflow-visible sm:max-h-full sm:opacity-100`}>
             {navItems.map((item) => 
             item.active ? (
               <li key={item.name}>
