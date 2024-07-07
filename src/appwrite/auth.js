@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable no-unused-vars */
 import conf from "../conf/conf";
-
+import { OAuthProvider } from "appwrite";
 import { Client, Account, ID } from "appwrite";
 
 export class AuthService {
@@ -32,6 +32,20 @@ export class AuthService {
     async login({email,password}){
         try {
            return await this.account.createEmailPasswordSession(email,password)
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async googleLogin(){
+        const successUrl = import.meta.env.VITE_SUCCESS_URL;
+        const failureUrl = import.meta.env.VITE_FAILURE_URL;
+        try {
+            return  this.account.createOAuth2Session(
+                OAuthProvider.Google,
+                successUrl,
+                failureUrl
+            )
         } catch (error) {
             throw error
         }
