@@ -38,8 +38,8 @@ export class AuthService {
     }
 
     async googleLogin(){
-        const successUrl = import.meta.env.VITE_SUCCESS_URL;
-        const failureUrl = import.meta.env.VITE_FAILURE_URL;
+        const successUrl = conf.successURL
+        const failureUrl = conf.failureURL
         try {
             return  this.account.createOAuth2Session(
                 OAuthProvider.Google,
